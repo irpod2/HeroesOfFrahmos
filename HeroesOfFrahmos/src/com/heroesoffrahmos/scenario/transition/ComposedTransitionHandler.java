@@ -28,6 +28,16 @@ public class ComposedTransitionHandler implements ITransitionHandler
 				fadeInCallback);
 	}
 
+	public void start()
+	{
+		currentHandler.start();
+	}
+
+	public boolean isComplete()
+	{
+		return currentHandler.isComplete();
+	}
+
 	protected CallbackVoid fadeInCallback = new CallbackVoid()
 	{
 		@Override

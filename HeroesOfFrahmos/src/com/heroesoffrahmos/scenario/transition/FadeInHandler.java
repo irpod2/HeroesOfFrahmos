@@ -19,6 +19,7 @@ public class FadeInHandler implements ITransitionHandler, IUpdateHandler
 	protected HUD hud;
 	protected CallbackVoid onFinishedCallback;
 	protected float totalTimeElapsed;
+	protected boolean complete = false;
 
 	public FadeInHandler(BaseGameActivity bga, Camera cam, IScenario scno,
 			CallbackVoid onFinishedCB)
@@ -31,10 +32,19 @@ public class FadeInHandler implements ITransitionHandler, IUpdateHandler
 				activity.getVertexBufferObjectManager());
 		fadeBox.setColor(Color.BLACK);
 		fadeBox.setAlpha(1.0f);
-		hud.attachChild(fadeBox);
 		totalTimeElapsed = 0;
+	}
+
+	public void start()
+	{
+		hud.attachChild(fadeBox);
 		scenario.getScene().registerUpdateHandler(this);
 		scenario.prepareStart();
+	}
+
+	public boolean isComplete()
+	{
+		return complete;
 	}
 
 	@Override
@@ -51,6 +61,7 @@ public class FadeInHandler implements ITransitionHandler, IUpdateHandler
 			hud.detachChild(fadeBox);
 			scenario.getScene().unregisterUpdateHandler(this);
 			scenario.start();
+			complete = true;
 			onFinishedCallback.onCallback();
 		}
 
@@ -69,5 +80,4 @@ public class FadeInHandler implements ITransitionHandler, IUpdateHandler
 			onFinishedCallback.onCallback();
 		}
 	}
-
 }
